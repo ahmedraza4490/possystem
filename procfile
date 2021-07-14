@@ -1,0 +1,1 @@
+web: gunicorn pointofsales.wsgi --log-file -

@@ -1,0 +1,163 @@
+{% extends 'adminBase.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Firebase Hosting</title>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/8.7.1/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/8.7.1/firebase-auth.js"></script>
+    <script defer src="/__/firebase/8.7.1/firebase-database.js"></script>
+    <script defer src="/__/firebase/8.7.1/firebase-firestore.js"></script>
+    <script defer src="/__/firebase/8.7.1/firebase-functions.js"></script>
+    <script defer src="/__/firebase/8.7.1/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/8.7.1/firebase-storage.js"></script>
+    <script defer src="/__/firebase/8.7.1/firebase-analytics.js"></script>
+    <script defer src="/__/firebase/8.7.1/firebase-remote-config.js"></script>
+    <script defer src="/__/firebase/8.7.1/firebase-performance.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="{% static 'static/sms.css' %}">
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css"></style>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+
+    <!-- 
+      initialize the SDK after all desired features are loaded, set useEmulator to false
+      to avoid connecting the SDK to running emulators.
+    -->
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
+      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+      @media (max-width: 600px) {
+        body, #message { margin-top: 0; background: white; box-shadow: none; }
+        body { border-top: 16px solid #ffa100; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid " style="margin-top: 30px;" >
+      <div class="card" style="background-color: 	#3d444b">
+        <div class="card-body">
+          <h4 class="page-title  text-white" style="font-family: 'Poppins';font-size: 22px;"> <i class="mdi mdi-view-dashboard title_icon"></i> Admin Home </h4>
+        </div> 
+      </div> 
+    
+        <div class="row  mt-3" >
+              
+            <div class="col-md-6 col-sm-12 text-center">
+            <div class="card" id="card1" style="height: 18rem;background-color: purple;">
+              <!-- <h5 class="card-header  text-center text-white" style="background-color: #007FD2;font-family: 'Poppins';font-size: 22px;">{{data.title}}</h5> -->
+              <a href="inventory" >   <div class="card-body">
+    
+                <!-- <i class="far fa-building"></i> -->
+                
+                <div class="mt-5">
+                  <div> <i class="fas fa-users" style="color: white;font-size:50px;"></i></div>
+                   <label style="font-family: 'Poppins';font-size: 26px;opacity: 1.0;" class="text-white mt-3">Total Products Quantity</label>
+                  <div> <label style="font-family: 'Poppins';font-size: 26px;" class="text-white mt-3">{{totalquantity}}</label></div>
+               </div>
+                
+              </div>
+            </a>
+    
+            </div>
+          </div>
+    
+          <div class="col-md-6 col-sm-12 text-center">
+            <div class="card" id="card1" style="height: 18rem;background-color: red!important;">
+              <!-- <h5 class="card-header  text-center text-white" style="background-color: #007FD2;font-family: 'Poppins';font-size: 22px;">{{data.title}}</h5> -->
+              <a href="orderList" > <div class="card-body">
+    
+                <div class="mt-5">
+                  <div> <i class="fas fa-users" style="color: white;font-size: 50px;"></i></div>
+                   <label style="font-family: 'Poppins';font-size: 26px;opacity: 1.0;" class="text-white mt-3">Total Sales</label>
+                  <div> <label style="font-family: 'Poppins';font-size: 26px;color: black;" class="text-white mt-3">{{totalSales}}</label></div>
+               </div>
+    
+    
+              </div>
+    
+              </a>
+    
+    
+            </div>
+          </div>
+    
+          </div>
+    
+      
+    
+    
+    
+    <div id="" class="mb-3 mt-5"    >
+      <canvas id="myChart" height="400px"></canvas>
+    </div> 
+    
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const loadEl = document.querySelector('#load');
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        // // The Firebase SDK is initialized and available here!
+        //
+        // firebase.auth().onAuthStateChanged(user => { });
+        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+        // firebase.firestore().doc('/foo/bar').get().then(() => { });
+        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
+        // firebase.messaging().requestPermission().then(() => { });
+        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+        // firebase.analytics(); // call to activate
+        // firebase.analytics().logEvent('tutorial_completed');
+        // firebase.performance(); // call to activate
+        //
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+
+        try {
+          let app = firebase.app();
+          let features = [
+            'auth', 
+            'database', 
+            'firestore',
+            'functions',
+            'messaging', 
+            'storage', 
+            'analytics', 
+            'remoteConfig',
+            'performance',
+          ].filter(feature => typeof app[feature] === 'function');
+          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
+        } catch (e) {
+          console.error(e);
+          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
+        }
+      });
+    </script>
+  </body>
+</html>
+
+
+{% endblock %}

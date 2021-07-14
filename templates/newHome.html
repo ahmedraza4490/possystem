@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<body>
+    <div class="container-fluid">
+        <div class="content">
+
+          <div class="row  mt-3" >
+            
+              <div class="col-md-6 col-sm-12 text-center">
+              <div class="card" id="card1" style="height:20rem;background-color: #3f51b5;">
+                <!-- <h5 class="card-header  text-center text-white" style="background-color: #007FD2;font-family: 'Poppins';font-size: 22px;">{{data.title}}</h5> -->
+                <div class="card-body">
+                    <label style="font-family: 'Poppins';font-size: 22px;color: white;">Seacrh By Code:</label> 
+                    <input type="text" style="margin-left:2.5%;" name="item_code" id="item_code" placeholder="code"size="40"  >
+                        <br/>
+                        <br/>
+                        <label style="font-family: 'Poppins';font-size: 22px;color: white;">Seacrh By Name:</label>  
+                        <input type="text" id="item_name" name="item_name" style="margin-left:2%;" list="ItemsList" placeholder="Name" value="" size="40" autocomplete="off" spellcheck="off">
+                        <datalist id="ItemsList">
+                        {% for results in ItemsList %}
+                            <option value="{{results.name}}"></option>
+                        {% endfor %}
+                        </datalist>
+                        <br/>
+                        <br/>
+                        
+                            <label style="font-family: 'Poppins';font-size: 22px;color: white;">Item Quantity :</label>
+                            <input type="text" style="margin-left:4.5%;" placeholder="Quantity" name="item_quantity" id="item_quantity" value="" size="40"/>
+                            
+                            <div class="text-center">
+                                <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="" role="tab" 
+                                aria-controls="nav-profile" aria-selected="false" onclick="item_search(document.getElementById('item_code').value, document.getElementById('item_name').value,document.getElementById('item_quantity').value)">
+                                <button type="button"  class=" btn btn-danger" >Enter</button>
+                                </a>
+                            </div>
+                        
+                        
+                     
+                        
+                       
+                   
+
+                 
+
+                     
+                </div>
+
+
+              </div>
+
+              <div class="card mt-4" style="border-top: none;border-right: none;border-bottom: 1px solid rgb(0, 110, 255);border-left: 5px solid rgb(0, 110, 255);" >
+                  <div class="card-body">
+  
+                    <div class="text-left"> <h4 class="page-title" style="font-family: 'Poppins';font-size: 20px;color: black;"></i> Items List </h4></div>
+                 
+                  </div>
+                  
+                </div>
+
+              <div class="card p-3 mb-4">
+                <table style="margin-top: 30px;" class="table table-striped table-responsive-sm table-responsive-sm">
+                    <thead>
+                      <th> Name </th>
+                      <th> Quantity </th>
+                      <th> Price </th>
+                      <th>Action</th>
+                      <!-- <th> Name </th> -->
+                    </thead>
+                    <tbody id="table">
+                    </tbody>
+                  </table>
+
+              </div>
+
+              <div>
+                <button id ='bill-btn' onclick="make_bill()" class="btn btn-primary" >Bill</button>
+              </div>
+
+
+
+
+              </div>
+
+
+              <div class="col-md-5 ml-5 col-sm-12 ">
+                  <div class="card" id="card1" style="background-color: #21B6A8; height: 100%;">
+                   
+                    <div class="card-body">
+                        <div style="display: flex;justify-content: space-around;">
+                            <div  style="margin-top: 30px;font-family: 'Poppins';font-size: 22px;"><button class="btn btn-success">Add New</button></div>
+                    
+                            <div  style="margin-top: 30px;">
+                              <button class="btn btn-success">Add New</button>
+                            </div>
+                    
+                          </div>
+                            <hr>
+                            <div class="text-center">
+                              <label style="color: white;font-family: 'Poppins';font-size: 22px;"  class="text-white">{{day}} , {{d1}}</label>
+                            </div>
+                            <hr>
+                            <div class="row text-white ">
+                              <div class="col-md-7 mt-3"><label style="color: white;font-family: 'Poppins';font-size: 22px;">Sub Total</label></div>
+                              <div class="col-md-2 mt-3"><label style="color: white;font-family: 'Poppins';font-size: 22px;" id="subtotal"></label></div>
+                            </div>
+                            <div class="row ">
+                              <div class="col-md-7 mt-3"><label style="color: white;font-family: 'Poppins';font-size: 22px;">Bill Discount</label></div>
+                              <div class="col-md-2 mt-3"><label style="color: white;font-family: 'Poppins';font-size: 22px;" id="b-discount"></label></div>
+                            </div>
+                            <div class="row ">
+                              <div class="col-md-7 mt-3"><label style="color: white;font-family: 'Poppins';font-size: 22px;">VAT</label></div>
+                              <div class="col-md-2 mt-3"><label style="color: white;font-family: 'Poppins';font-size: 22px;" id="vat"></label></div>
+                            </div>
+                            <hr>
+                            <div class="row ">
+                              <div class="col-md-7 mt-3"><label style="color: white;font-family: 'Poppins';font-size: 22px;">Total</label></div>
+                              <div class="col-md-2 mt-3"><label style="color: white;font-family: 'Poppins';font-size: 22px;" id="totalBill"></label></div>
+                            </div>
+                            <div class="row ">
+                              <div class="col-md-7 mt-3"><label style="color: white;font-family: 'Poppins';font-size: 22px;">Receive </label></div>
+                              <div class="col-md-5 mt-3"> <input type="text" class="form-control" onchange="return_ammount()" name="receive" placeholder="Receive ammount" id="receive_Ammount" >  </div>
+                            </div>
+
+                            <div class="row ">
+                                <div class="col-md-7 mt-3"><label style="color: white;font-family: 'Poppins';font-size: 22px;">Tender Amount</label></div>
+                                <div class="col-md-2 mt-3"><label style="color: white;font-family: 'Poppins';font-size: 22px;" id="tender_amount"></label></div>
+                              </div>
+                              <div class="row ">
+                                <div class="col-md-7 mt-3"><label style="color: white;font-family: 'Poppins';font-size: 22px;">Return Amount</label></div>
+                                <div class="col-md-2 mt-3"><label style="color: white;font-family: 'Poppins';font-size: 22px;" id="return_amount"></label></div>
+                              </div>
+                              <hr>
+                              <div style="display: flex;justify-content: space-around;">
+                                <div  data-toggle="modal" data-target="#myModal" style="margin-top: 30px;font-family: 'Poppins';font-size: 22px;"><button class="btn btn-success">Cash</button></div>
+                      
+                                <div  style="margin-top: 30px;"><button class="btn btn-success">Credit Card</button></div>
+                      
+                              </div>
+  
+                  
+                   </div>
+                 </div>
+
+                 <!-- <div class="card mt-4" style="border-top: none;border-right: none;border-bottom: 1px solid rgb(0, 110, 255);border-left: 5px solid rgb(0, 110, 255);" > -->
+                  <div class="card-body">
+  
+                     <!-- <div class="text-left"> <h4 class="page-title" style="font-family: 'Poppins';font-size: 20px;color: black;"></i> Recent Payments </h4></div> -->
+                 
+                  </div>
+                  
+                </div>
+
+              
+
+
+
+
+                  </div>
+
+
+
+
+        
+            </div>
+
+
+
+
+
+        </div>
+
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                  <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+    </div>
+
+    <script>
+        function make_bill(){
+          var url = '/make_bill';
+          var req = new XMLHttpRequest();
+          req.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                 var data = eval(req.responseText);
+                 document.getElementById('totalBill').textContent = data 
+                alert(data);
+              }
+            };
+            req.open("GET", url, true);
+            req.send();
+          }
+         </script>
+
+    
+
+
+</div>
+</div>
+<script>
+function item_search(item_code, item_name,quantity){
+var req = new XMLHttpRequest();
+if(item_code != '')
+{
+var url = '/getItemByCode?code='+item_code+'&quantity='+quantity + '&search_by=' + 'code';
+}
+else
+{
+var url = '/getItemByName?name='+item_name+'&quantity='+quantity + '&search_by=' + 'name';
+alert(url)
+}
+req.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+     var data = eval(req.responseText);
+    //  alert(data);
+    //  var div = document.getElementById('nav-profile');
+    //  div.innerHTML="";
+    //  var table = document.createElement('TABLE');
+    var table = document.getElementById('table');
+    table.innerHTML=""
+    //  var row = table.insertRow(0);
+    //      var name = row.insertCell(0);
+    //      var category = row.insertCell(1);
+    //      var quantity = row.insertCell(2);
+    //      var Price = row.insertCell(3);
+    //      var TotalPrice = row.insertCell(4);
+    //      var removeItem = row.insertCell(5);
+    //      name.innerHTML = "Name";
+    //      category.innerHTML = "Category";
+    //      quantity.innerHTML = "Quantity";
+    //      Price.innerHTML = "Price";
+    //      TotalPrice.innerHTML = "Total Price";
+    //      removeItem.innerHTML = "";
+    alert(data.length);
+     for (var i = 0; i < data.length; i++){
+         var row = table.insertRow(i);
+         var name = row.insertCell(0);
+         var quantity = row.insertCell(1);
+         var price = row.insertCell(2);
+        //  var action = row.insertCell(3);
+        //  var Price = row.insertCell(3);
+        //  var TotalPrice = row.insertCell(4);
+        //  var removeItem = row.insertCell(5);
+         name.innerHTML = data[i].name;
+         quantity.innerHTML = data[i].quantity;
+         price.innerHTML = data[i].sale_price;
+        //  salePrice.innerHTML = data[i].sale_price;
+        //  TotalPrice.innerHTML = data[i].name;
+        //  alert(data[i].sale_price * data[i].quantity);
+        //  TotalPrice.innerHTML = data[i].sale_price * data[i].quantity;
+        //  alert(data[i].sale_price * data[i].quantity);
+          // action.innerHTML = "<a href='/delete?id={{d.ID}}'><span class='glyphicon glyphicon-remove' title='Remove Item'></span> </a>";
+     }
+    //  table.className = 'table text-center table-striped'
+    //  div.appendChild(table);
+  }
+};
+req.open("GET", url, true);
+req.send();
+}
+</script>
+
+
+<script>
+    // document.getElementById("receive_Ammount").addEventListener("onchange", return_ammount);
+    function return_ammount() {
+      // alert('in');
+      var a = document.getElementById("receive_Ammount").value;
+      alert(a);
+      var b = document.getElementById("totalBill").innerText;
+      alert(b);
+     if( parseInt(a) >= parseInt(b) ){
+       var return_ammount = parseInt(a) - parseInt(b);
+       document.getElementById('return_amount').textContent = return_ammount; 
+     }
+    }
+    </script>
+   
+</body>
+
+</html>
+
+{% endblock %}

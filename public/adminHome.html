@@ -1,0 +1,134 @@
+{% extends 'adminBase.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container-fluid " style="margin-top: 30px;" >
+  <div class="card" style="background-color: 	#3d444b">
+    <div class="card-body">
+      <h4 class="page-title  text-white" style="font-family: 'Poppins';font-size: 22px;"> <i class="mdi mdi-view-dashboard title_icon"></i> Admin Home </h4>
+    </div> 
+  </div> 
+
+    <div class="row  mt-3" >
+          
+        <div class="col-md-6 col-sm-12 text-center">
+        <div class="card" id="card1" style="height: 18rem;background-color: purple;">
+          <!-- <h5 class="card-header  text-center text-white" style="background-color: #007FD2;font-family: 'Poppins';font-size: 22px;">{{data.title}}</h5> -->
+          <a href="inventory" >   <div class="card-body">
+
+            <!-- <i class="far fa-building"></i> -->
+            
+            <div class="mt-5">
+              <div> <i class="fas fa-users" style="color: white;font-size:50px;"></i></div>
+               <label style="font-family: 'Poppins';font-size: 26px;opacity: 1.0;" class="text-white mt-3">Total Products Quantity</label>
+              <div> <label style="font-family: 'Poppins';font-size: 26px;" class="text-white mt-3">{{totalquantity}}</label></div>
+           </div>
+            
+          </div>
+        </a>
+
+        </div>
+      </div>
+
+      <div class="col-md-6 col-sm-12 text-center">
+        <div class="card" id="card1" style="height: 18rem;background-color: red!important;">
+          <!-- <h5 class="card-header  text-center text-white" style="background-color: #007FD2;font-family: 'Poppins';font-size: 22px;">{{data.title}}</h5> -->
+          <a href="orderList" > <div class="card-body">
+
+            <div class="mt-5">
+              <div> <i class="fas fa-users" style="color: white;font-size: 50px;"></i></div>
+               <label style="font-family: 'Poppins';font-size: 26px;opacity: 1.0;" class="text-white mt-3">Total Sales</label>
+              <div> <label style="font-family: 'Poppins';font-size: 26px;color: black;" class="text-white mt-3">{{totalSales}}</label></div>
+           </div>
+
+
+          </div>
+
+          </a>
+
+
+        </div>
+      </div>
+
+      </div>
+
+      <div class="card" style="margin-top: 30px;background-color: 	#3d444b">
+        <div class="card-body">
+          <h4 class="page-title  text-white" style="font-family: 'Poppins';font-size: 20px;"> <i class="mdi mdi-view-dashboard title_icon"></i> Annually Presentation</h4>
+        </div> 
+      </div>
+
+
+
+<div id="" class="mb-3 mt-5"    >
+  <canvas id="myChart" height="400px"></canvas>
+</div> 
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script>
+  var ctx = document.getElementById("myChart").getContext("2d");
+
+  var data = {
+  labels: {{ labels|safe }},
+  datasets: [{
+    label: "Total Sales",
+    // backgroundColor: '#e5e4e2',
+    data:  {{data|safe}},
+    fill: false,
+    borderColor: 'rgb(75, 192, 192)',
+    tension: 0.1
+    
+  },
+  ]
+};
+
+// const config = new Chart(ctx,{
+//   type: 'line',
+//   data: data,
+//   options: {
+//     responsive: true,
+//     plugins: {
+//       legend: {
+//         position: 'top',
+//       },
+//       title: {
+//         display: true,
+//         text: 'Chart.js Line Chart'
+//       }
+//     }
+//   },
+
+
+var linechart = new Chart(ctx, {
+  type: 'line',
+  data: data,
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Chart.js Line Chart'
+      }
+    }
+  },
+});
+
+</script>
+
+
+
+
+
+
+
+
+
+
+{%endblock%}

@@ -1,0 +1,760 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<head>
+<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+<style>
+
+</style>
+
+</head>
+
+<body>
+  <div class="ml-4 mr-4 mt-2">
+
+    <div class="row">
+      <div class="col-md-7 col-sm-12">
+
+        <div class="row col-md-12 bg-primary">
+          <div class="col-md-4 " style="margin-top: 30px;margin-bottom: 30px;">
+            <input type="text" id="item_name" class="form-control" name="item_name" style="margin-left:2%;" list="ItemsList" placeholder="Search By Name" value="">
+                    <datalist id="ItemsList">
+                      {% for results in ItemsList %}
+                        <option value="{{results.name}}"></option>
+                      {% endfor %}
+                    </datalist>
+          </div>
+          <div class="col-md-4 " style="margin-top: 30px; margin-bottom: 30px;">
+            <input type="text" id="item_code" class="form-control" name="item_code" style="margin-left:2%;" placeholder="Search By Code" value="">
+                    
+          </div> 
+          <div class="col-md-2 " style="margin-top: 30px; margin-bottom: 30px;">
+            <input type="text" id="item_quantity" class="form-control" name="item_quantity" style="margin-left:2%;" value="0">
+                    
+          </div> 
+
+            <div class="col-md-2">
+  
+              <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="" role="tab" 
+              aria-controls="nav-profile" aria-selected="false" onclick="item_search()">
+              <button type="button"  class=" btn btn-info" >Search</button>
+              </a>
+            </div>
+          </div>
+
+
+
+          <div class="mt-1" style=" overflow:hidden;overflow-y: scroll;height: 343px;" >
+          <table style="margin-top: 30px;overflow-y: scroll;overflow-x: scroll;height: 50px;border-spacing: 0;border-collapse: collapse;" class="table table-striped table-responsive-sm table-responsive-sm">
+            <thead>
+              <th> Name </th>
+              <th></th>
+              <th>Qnt</th>
+              <th></th>
+              <th> Price </th>
+              <th>Total</th>
+              <th>Delete</th>
+       
+            </thead>
+            <tbody id="table">
+            </tbody>
+          </table>
+       
+    </div>
+
+   
+    <hr>
+
+    <div class="row" style="margin-top: 62px;">
+         
+      
+            <div class="col-md-12">
+
+              <div class="row"> 
+                <div class="col-md-3" style="font-family:'Poppins';font-size:16px;" >Subtotal :</div>
+                <div class="col-md-1"><label style="color: black;font-family: 'Poppins';font-size: 16px;font-weight: bold;" id="totalBill"></label></div>
+                <div class="col-md-3" style="font-family:'Poppins';font-size:16px;">Discount :</div>
+                <div class="col-md-5 col-sm-2"><input type="text" class="form-control" onchange="apply_discount()" name="discount" placeholder="Discount" id="discount" ></div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-3" style="font-family:'Poppins';font-size:16px;">Total :</div>
+                <div class="col-md-1"><label style="color: black;font-family: 'Poppins';font-size: 16px;font-weight: bold;" id="final_bill"></label></div>
+                <div class="col-md-3" style="font-family:'Poppins';font-size:16px;">Rec Amount :</div>
+                <div class="col-md-5"><input type="text" class="form-control" onchange="return_ammount()" name="receive" placeholder="Receive Amount" id="receive_Ammount" ></div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-3" style="font-family:'Poppins';font-size:16px;">Ret Amount :</div>
+                <div class="col-md-3"><label style="color: black;font-family: 'Poppins';font-size: 16px;font-weight: bold;" id="return_amount"></div>
+              </div>
+              
+                
+
+                 
+                  <!-- </form> -->
+              
+            </div>
+    </div>
+
+      </div>
+
+      <div class="col-md 5 col-sm-12">
+        
+    <!-- <div>
+      <button id ='bill-btn' onclick="make_bill()" class="btn btn-primary" >Bill</button>
+    </div> -->
+
+    <div class="row">
+      {% for data in four_items %}
+      <div class="col-md-3  pl-0"><button onclick="add_ten_items('{{data.stock_id}}')" class="btn btn-dark text-dark form-control" style="width: 9.5rem; height: 8rem;background-color:#A5C536 ;"> {{data.vendors}} </button></div>
+      {% endfor %}
+    </div>
+    <div class="row" style="margin-top :10px">
+        <div class="col-md-3  pl-0 "><button class="btn btn-dark text-dark form-control"style="width: 9.5rem; height: 8rem;background-color:#4A9BC0 ;">Unfinished Sales</button></div>
+        <div class="col-md-3  pl-0"><button class="btn btn-dark text-dark form-control"style="width: 9.5rem; height: 8rem;background-color:#4A9BC0 ;">Edit Product</button></div>
+        <div class="col-md-3  pl-0"><button class="btn btn-dark text-dark form-control"style="width: 9.5rem; height: 8rem;background-color:#4A9BC0 ;">Add Purch. invoice</button></div>
+        <div class="col-md-3  pl-0"><button class="btn btn-dark text-dark form-control"style="width: 9.5rem; height: 8rem;background-color:#B7D6E5 ;">Print gift receipt</button></div>
+    </div>
+    <div class="row" style="margin-top :10px; justify-content: left;justify-content: ;">
+        <div class="col-md-3 pr-0 pl-0 "><button class="btn btn-dark text-dark form-control"style="width: 9.5rem; height: 8rem;background-color:#4A9BC0 ;">X  Reports</button></div>
+        <div class="col-md-3 pr-0 pl-0"><button class="btn btn-dark text-dark form-control"style="width: 9.5rem; height: 8rem;background-color:#4A9BC0 ;">Item Lookup</button></div>
+        <div class="col-md-3 pr-0 pl-0"><button class="btn btn-dark text-dark form-control"style="width: 9.5rem; height: 8rem;background-color:#4A9BC0 ;">End Day</button></div>
+        <div class="col-md-3 pr-0 pl-0"><button class="btn btn-dark text-dark form-control"style="width: 9.5rem; height: 8rem;background-color:#4A9BC0 ;">Clock in/out</button></div>
+    </div>
+    <hr class="" style="background-color: ;margin-top: 60px;">
+    <div class="row" style="margin-top :60px">
+      <div class="col-md-3 pr-0 pl-0"><button class="btn btn-dark text-dark form-control"style="width: 9.5rem; height: 4rem;background-color:#94D4ED ;">Cash In</button></div>
+      <div class="col-md-3 pr-0 pl-0"><button class="btn btn-dark text-dark form-control"style="width: 9.5rem; height: 4rem;background-color:#B7D6E5 ;">Cash Out</button></div>
+      <div class="col-md-3 pr-0 pl-0"><button class="btn btn-dark text-dark form-control"style="width: 9.5rem; height: 4rem;background-color:#94D4ED ;"></button></div>
+      <div class="col-md-3 pr-0 pl-0"><button class="btn btn-dark text-dark form-control"style="width: 9.8rem; height: 4rem;background-color:#94D4ED ;"> <a href=" "target="_blank"> New Customer </a> </button></div>
+    </div>
+    <div class="row" style="margin-top :5px;">
+      <div class="col-md-3 pr-0 pl-0"><button class="btn btn-dark text-dark form-control "style="width: 9.5rem; height: 4rem;background-color:#F4C345; margin-left:0rem">Cash</button></div>
+      <div class="col-md-3 pr-0 pl-0"><button class="btn btn-dark text-dark form-control  "style="width: 9.5rem; height: 4rem;background-color:#EA5257 ;">Card</button></div>
+      <div class="col-md-6 pr-0 pl-0"><a href="create_bill_pdf"><button  id ='bill-btn' class=" btn btn-dark text-dark form-control "style="height: 4rem;background-color:#A5C536;">Pay</button></a></div>
+    </div>
+   
+
+    </div>
+
+    </div>
+
+  </div>
+  <script>
+
+
+
+
+function return_ammount() {
+          // alert('in');
+          var a = document.getElementById("receive_Ammount").value;
+          // alert(a);
+          var b = document.getElementById("final_bill").innerText;
+          // alert(b);
+         if( parseInt(a) >= parseInt(b) ){
+           var return_ammount = parseInt(a) - parseInt(b);
+           document.getElementById('return_amount').textContent = return_ammount; 
+         }
+        }
+
+function apply_discount(){
+            var discount = document.getElementById('discount').value;
+         
+            
+
+           var url = 'save_discount?my_discount='+discount;
+          //  alert(url);
+
+           var req = new XMLHttpRequest();
+              req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                var data = eval(req.responseText);
+
+                var original_price = document.getElementById('totalBill').innerText;
+         
+            discounted_price = parseInt(original_price) - (parseInt(original_price) * parseInt(discount) / 100);
+    
+           document.getElementById('final_bill').textContent = discounted_price;
+                // alert(data);
+                // var name = data;
+                // alert(name);
+           
+      }
+             };
+             req.open("GET", url, true);
+             req.send();
+
+
+          }
+
+
+      
+
+    </script>
+
+
+  <script>
+
+function add_ten_items(id){
+  
+  // var url = 'add_ten_items?=' + id;
+  var url = 'add_ten_items?id='+id;
+  // alert(url);
+      var req = new XMLHttpRequest();
+
+
+
+      req.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+             var data = eval(req.responseText);
+          //  alert(data);
+
+           var table = document.getElementById('table');
+          //  alert(table.innerHTML);
+          table.innerHTML=""
+
+          for (var i = 0; i < data.length; i++){
+             
+             var row = table.insertRow(i);
+             var name = row.insertCell(0);
+             var add = row.insertCell(1);
+             var quantity = row.insertCell(2);
+             var subtract = row.insertCell(3);
+             var price = row.insertCell(4);
+             var row_total = row.insertCell(5);
+             var del_item = row.insertCell(6);
+
+             name.innerHTML = data[i].name;
+            // quantity.innerHTML = '<a href=\'javascript:\' ><i class="fa fa-minus" style="font-size:20px;color:red"></i></a>' + data[i].quantity + '<a onclick=add_quantity('+ data[i].code + ') href=\'javascript:\'><i class="fa fa-plus" style="font-size:20px;color:red"></a></i>';
+            quantity.innerHTML = data[i].quantity;
+
+             add.innerHTML ='<a href=\'javascript:\' ><i class="fa fa-plus" style="font-size:20px;color:red"></i></a>'  ;
+             add.name = data[i].name;
+             add.onclick = function(){
+              var obj = this;
+              var name = this.name;
+              var url = '/add_item?name='+name;
+              req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                var data = eval(req.responseText);
+            var table = document.getElementById('table');
+
+            for (var i = 0, row; row = table.rows[i]; i++) {
+            for (var j = 0, col; col = row.cells[j]; j++) {
+            if(data == col.name)
+              {
+              var quantity = row.cells[2].innerText;
+              row.cells[2].innerHTML = parseInt(quantity) + 1;
+
+              var row_total = row.cells[5].innerText;
+              var quantity = row.cells[2].innerText;
+              // quantity.setAttribute("class","text-left ml-5");
+              var price = row.cells[4].innerText;
+              row.cells[5].innerHTML = parseInt(quantity) * parseFloat(price);
+
+               break;
+                }
+              }
+        }  
+
+        var sub_total = 0;
+
+        for (var i = 0, row; row = table.rows[i]; i++) {
+           sub_total += parseInt(row.cells[5].innerText);
+         
+        }
+        document.getElementById('totalBill').textContent = sub_total;
+
+
+      }
+             };
+             req.open("GET", url, true);
+             req.send();
+          }
+
+          subtract.innerHTML = '<a href=\'javascript:\' ><i class="fa fa-minus" style="font-size:20px;color:red"></i></a>'  ;
+          // subtract.setAttribute("class","text-left ml-5");
+          
+
+          subtract.name = data[i].name;
+          subtract.onclick = function(){
+              var obj = this;
+              var name = this.name;
+              var url = '/subtract_item?name='+name;
+              req.onreadystatechange = function() {
+               if (this.readyState == 4 && this.status == 200) {
+                var data = eval(req.responseText);
+            var table = document.getElementById('table');
+            
+            for (var i = 0, row; row = table.rows[i]; i++) {
+            for (var j = 0, col; col = row.cells[j]; j++) {
+            if(data == col.name)
+              {
+              var quantity = row.cells[2].innerText;
+              if(parseInt(quantity) > 0){
+              row.cells[2].innerHTML = parseInt(quantity) - 1;
+
+              var row_total = row.cells[5].innerText;
+              var quantity = row.cells[2].innerText;
+              var price = row.cells[4].innerText;
+              row.cells[5].innerHTML = parseInt(quantity) * parseFloat(price);
+               break;
+              }
+                }
+              }
+        }
+
+        var sub_total = 0;
+
+        for (var i = 0, row; row = table.rows[i]; i++) {
+           sub_total += parseInt(row.cells[5].innerText);
+         
+        }
+        document.getElementById('totalBill').textContent = sub_total;
+        
+        
+
+      }  
+             };
+             req.open("GET", url, true);
+             req.send();
+          }
+         
+          price.innerHTML = data[i].sale_price;
+          row_total.innerHTML = parseInt(data[i].quantity) * parseFloat(data[i].sale_price);
+
+          del_item.innerHTML = "<td> <a href='javascript:'> delete  </a> </td>";
+          del_item.name = data[i].name;
+          del_item.onclick = function(){
+              var obj = this;
+              var name = this.name;
+              var url = '/delete_item?name='+name;
+              req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                var data = eval(req.responseText);
+                // alert(data);
+            var table = document.getElementById('table');
+            for (var i = 0, row; row = table.rows[i]; i++) {
+            for (var j = 0, col; col = row.cells[j]; j++) {
+            if(data == col.name)
+              {
+                let table = document.querySelector('table');
+                  // Delete  row
+                  table.deleteRow(i + 1);
+               break;
+                }
+              }
+        }  
+      }
+             };
+             req.open("GET", url, true);
+             req.send();
+          }
+
+         }
+
+         var sub_total = 0;
+
+        for (var i = 0, row; row = table.rows[i]; i++) {
+          sub_total += parseInt(row.cells[5].innerText);
+        
+        }
+        document.getElementById('totalBill').textContent = sub_total;
+
+          }
+        };
+        req.open("GET", url, true);
+        req.send();
+}
+
+$('#table').find('tr').click( function(){
+alert('You clicked row '+ ($(this).index()+1) );
+});
+
+function subtract_quantity(e){
+  // alert(code);   
+  // var colValue= this.dataItem($(e.currentTarget).closest("tr"));
+      //for verification purposes
+      // alert(colValue);
+              var url = 'subtract_item?code='+code;
+              // alert(url);
+              var req = new XMLHttpRequest();
+              req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                var data = eval(req.responseText);
+                // alert(data);
+                var name = data;
+                // alert(name);
+            var table = document.getElementById('table').innerHTML;
+            for (var i = 0, row; row = table.rows[i]; i++) {
+            for (var j = 0, col; col = row.cells[j]; j++) {
+            if(data == col.name)
+              {
+              var quantity = row.cells[1].innerText;
+              var new_quantity = parseInt(quantity) - 1;
+              // '<a  href=\'javascript:\' ><i class="fa fa-minus" style="font-size:20px;color:red"></i></a>' +parseInt(quantity) + 1 + '<a onclick=add_quantity('+ data[i].code + ') href=\'javascript:\'><i class="fa fa-plus" style="font-size:20px;color:red"></a></i>';
+              row.cells[1].innerHTML = '<a onclick=subtract_quantity('+ data[i].code + ')  href=\'javascript:\' ><i class="fa fa-minus" style="font-size:20px;color:red"></i></a>' + new_quantity + '<a onclick=add_quantity('+ data[i].code + ') href=\'javascript:\'><i class="fa fa-plus" style="font-size:20px;color:red"></a></i>';
+
+              var row_total = row.cells[5].innerText;
+              var quantity = row.cells[1].innerText;
+              var price = row.cells[4].innerText;
+              row.cells[5].innerHTML = parseInt(quantity) * parseFloat(price);
+
+               break;
+                }
+              }
+        }  
+      }
+             };
+             req.open("GET", url, true);
+             req.send();
+}
+
+
+
+
+
+function add_quantity(code){
+  // alert(code);   
+          
+              var url = 'increase_quantity?code='+code;
+              // alert(url);
+              var req = new XMLHttpRequest();
+              req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                var data = eval(req.responseText);
+                // alert(data);
+                var name = data;
+                // alert(name);
+            var table = document.getElementById('table');
+            for (var i = 0, row; row = table.rows[i]; i++) {
+            for (var j = 0, col; col = row.cells[j]; j++) {
+            if(data == col.name)
+              {
+              var quantity = row.cells[1].innerText;
+              var new_quantity = parseInt(quantity) + 1;
+              // '<a  href=\'javascript:\' ><i class="fa fa-minus" style="font-size:20px;color:red"></i></a>' +parseInt(quantity) + 1 + '<a onclick=add_quantity('+ data[i].code + ') href=\'javascript:\'><i class="fa fa-plus" style="font-size:20px;color:red"></a></i>';
+              row.cells[1].innerHTML = '<a onclick=add_quantity('+ data[i].code + ')  href=\'javascript:\' ><i class="fa fa-minus" style="font-size:20px;color:red"></i></a>' + new_quantity + '<a onclick=add_quantity('+ data[i].code + ') href=\'javascript:\'><i class="fa fa-plus" style="font-size:20px;color:red"></a></i>';
+
+              var row_total = row.cells[5].innerText;
+              var quantity = row.cells[1].innerText;
+              var price = row.cells[4].innerText;
+              row.cells[5].innerHTML = parseInt(quantity) * parseFloat(price);
+
+               break;
+                }
+              }
+        }  
+      }
+             };
+             req.open("GET", url, true);
+             req.send();
+}
+
+// function increase_item_quantity(){
+//   alert('hdghg');
+// }
+
+
+
+    function item_search(item_name){
+    var req = new XMLHttpRequest();
+    var ItemName = document.getElementById('item_name').value;
+    var ItemCode = document.getElementById('item_code').value;
+    var ItemQuantity = document.getElementById('item_quantity').value;
+    if(ItemCode){
+    ItemName = '0'
+    }
+    else if(ItemName){
+      ItemCode = '0'
+    }
+    else{
+      alert('Please Select Item First');
+      return null;
+    }
+    if(ItemQuantity < 1){
+      alert('Please Enter Quantity');
+      return null;
+    }
+    var url = 'getItemByName?name='+ItemName+"&code="+ItemCode+"&quantity="+ItemQuantity;
+
+
+    req.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+             var data = eval(req.responseText);
+          //  alert(data);
+
+           var table = document.getElementById('table');
+          table.innerHTML=""
+          for (var i = 0; i < data.length; i++){
+             
+             var row = table.insertRow(i);
+             var name = row.insertCell(0);
+             var add = row.insertCell(1);
+             var quantity = row.insertCell(2);
+             var subtract = row.insertCell(3);
+             var price = row.insertCell(4);
+             var row_total = row.insertCell(5);
+             var del_item = row.insertCell(6);
+
+             name.innerHTML = data[i].name;
+              // quantity.innerHTML = '<a onclick=subtract_quantity(this)  href=\'javascript:\' ><i class="fa fa-minus" style="font-size:20px;color:red"></i></a>' + data[i].quantity + '<a onclick=add_quantity('+ data[i].code + ') href=\'javascript:\'><i class="fa fa-plus" style="font-size:20px;color:red"></a></i>';
+            quantity.innerHTML = data[i].quantity;
+
+             add.innerHTML ='<a href=\'javascript:\' ><i class="fa fa-plus" style="font-size:20px;color:red"></i></a>'  ;
+             add.name = data[i].name;
+             add.onclick = function(){
+              var obj = this;
+              var name = this.name;
+              var url = '/add_item?name='+name;
+              req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                var data = eval(req.responseText);
+            var table = document.getElementById('table');
+
+            for (var i = 0, row; row = table.rows[i]; i++) {
+            for (var j = 0, col; col = row.cells[j]; j++) {
+            if(data == col.name)
+              {
+              var quantity = row.cells[2].innerText;
+              row.cells[2].innerHTML = parseInt(quantity) + 1;
+
+              var row_total = row.cells[5].innerText;
+              var quantity = row.cells[2].innerText;
+              var price = row.cells[4].innerText;
+              row.cells[5].innerHTML = parseInt(quantity) * parseFloat(price);
+
+               break;
+                }
+              }
+        }  
+
+        var sub_total = 0;
+
+        for (var i = 0, row; row = table.rows[i]; i++) {
+           sub_total += parseInt(row.cells[5].innerText);
+         
+        }
+        document.getElementById('totalBill').textContent = sub_total;
+
+
+      }
+             };
+             req.open("GET", url, true);
+             req.send();
+          }
+
+          subtract.innerHTML = '<a href=\'javascript:\' ><i class="fa fa-minus" style="font-size:20px;color:red"></i></a>'  ;
+          
+          subtract.name = data[i].name;
+          subtract.onclick = function(){
+              var obj = this;
+              var name = this.name;
+              var url = '/subtract_item?name='+name;
+              req.onreadystatechange = function() {
+               if (this.readyState == 4 && this.status == 200) {
+                var data = eval(req.responseText);
+            var table = document.getElementById('table');
+
+            for (var i = 0, row; row = table.rows[i]; i++) {
+            for (var j = 0, col; col = row.cells[j]; j++) {
+            if(data == col.name)
+              {
+              
+                var quantity = row.cells[2].innerText;
+                if ( parseInt(quantity) > 0 ){
+              
+              row.cells[2].innerHTML = parseInt(quantity) - 1;
+
+              var row_total = row.cells[5].innerText;
+              var quantity = row.cells[2].innerText;
+              var price = row.cells[4].innerText;
+              row.cells[5].innerHTML = parseInt(quantity) * parseFloat(price);
+
+             
+               break;
+                }
+
+              }
+              }
+        }  
+
+        var sub_total = 0;
+
+        for (var i = 0, row; row = table.rows[i]; i++) {
+           sub_total += parseInt(row.cells[5].innerText);
+         
+        }
+        document.getElementById('totalBill').textContent = sub_total;
+
+      }  
+             };
+             req.open("GET", url, true);
+             req.send();
+          }
+         
+          price.innerHTML = data[i].sale_price;
+          row_total.innerHTML = parseInt(data[i].quantity) * parseFloat(data[i].sale_price);
+
+          del_item.innerHTML = "<td> <a href='javascript:'> delete  </a> </td>";
+          del_item.name = data[i].name;
+          del_item.onclick = function(){
+              var obj = this;
+              var name = this.name;
+              var url = '/delete_item?name='+name;
+              req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                var data = eval(req.responseText);
+                // alert(data);
+            var table = document.getElementById('table');
+            for (var i = 0, row; row = table.rows[i]; i++) {
+            for (var j = 0, col; col = row.cells[j]; j++) {
+            if(data == col.name)
+              {
+                let table = document.querySelector('table');
+                  // Delete  row
+                  table.deleteRow(i + 1);
+               break;
+                }
+              }
+        }  
+      }
+             };
+             req.open("GET", url, true);
+             req.send();
+          }
+
+         }
+
+         var sub_total = 0;
+
+        for (var i = 0, row; row = table.rows[i]; i++) {
+          sub_total += parseInt(row.cells[5].innerText);
+        
+        }
+        document.getElementById('totalBill').textContent = sub_total;
+
+          }
+        };
+
+
+
+    // req.onreadystatechange = function() {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //        var data = eval(req.responseText);
+    //       var table = document.getElementById('table');
+    //       table.innerHTML=""
+    //        for (var i = 0; i < data.length; i++){
+    //            var row = table.insertRow(i);
+    //            var name = row.insertCell(0);
+    //            var quantity = row.insertCell(1);
+    //            var price = row.insertCell(2);
+    //            var add = row.insertCell(3);
+    //            var subtract = row.insertCell(4);
+    //            var del_item = row.insertCell(5);
+    //            var row_total = row.insertCell(6);
+    //            name.innerHTML = data[i].name;
+    //            quantity.innerHTML = data[i].quantity;
+    //            price.innerHTML = data[i].sale_price;
+    //            add.innerHTML = "<td> <a href='javascript:' > add  </a> </td>";
+    //            add.name = data[i].name;
+    //            add.onclick = function(){
+    //             var obj = this;
+    //             var name = this.name;
+    //             var url = '/add_item?name='+name;
+    //             req.onreadystatechange = function() {
+    //               if (this.readyState == 4 && this.status == 200) {
+    //               var data = eval(req.responseText);
+    //           var table = document.getElementById('table');
+    //           for (var i = 0, row; row = table.rows[i]; i++) {
+    //           for (var j = 0, col; col = row.cells[j]; j++) {
+    //           if(data == col.name)
+    //             {
+    //             var quantity = row.cells[1].innerText;
+    //             row.cells[1].innerHTML = parseInt(quantity) + 1;
+
+    //             var row_total = row.cells[6].innerText;
+    //             var quantity = row.cells[1].innerText;
+    //             var price = row.cells[2].innerText;
+    //             row.cells[6].innerHTML = parseInt(quantity) * parseFloat(price);
+    //              break;
+    //               }
+    //             }
+    //       }  
+    //     }
+    //            };
+    //            req.open("GET", url, true);
+    //            req.send();
+    //         }
+    //         subtract.innerHTML = "<td> <a href='javascript:' > Subctract  </a> </td>";
+    //         subtract.name = data[i].name;
+    //         subtract.onclick = function(){
+    //             var obj = this;
+    //             var name = this.name;
+    //             var url = '/subtract_item?name='+name;
+    //             req.onreadystatechange = function() {
+    //              if (this.readyState == 4 && this.status == 200) {
+    //               var data = eval(req.responseText);
+    //           var table = document.getElementById('table');
+    //           for (var i = 0, row; row = table.rows[i]; i++) {
+    //           for (var j = 0, col; col = row.cells[j]; j++) {
+    //           if(data == col.name)
+    //             {
+    //             var quantity = row.cells[1].innerText;
+    //             row.cells[1].innerHTML = parseInt(quantity) - 1;
+    //             var row_total = row.cells[6].innerText;
+    //             var quantity = row.cells[1].innerText;
+    //             var price = row.cells[2].innerText;
+    //             row.cells[6].innerHTML = parseInt(quantity) * parseFloat(price);
+
+    //              break;
+    //               }
+    //             }
+    //       }  
+    //     }  
+    //            };
+    //            req.open("GET", url, true);
+    //            req.send();
+    //         }
+    //         del_item.innerHTML = "<td> <a href='javascript:' > delete  </a> </td>";
+    //         del_item.name = data[i].name;
+    //         del_item.onclick = function(){
+    //             var obj = this;
+    //             var name = this.name;
+    //             var url = '/delete_item?name='+name;
+    //             req.onreadystatechange = function() {
+    //               if (this.readyState == 4 && this.status == 200) {
+    //               var data = eval(req.responseText);
+    //               // alert(data);
+    //           var table = document.getElementById('table');
+    //           for (var i = 0, row; row = table.rows[i]; i++) {
+    //           for (var j = 0, col; col = row.cells[j]; j++) {
+    //           if(data == col.name)
+    //             {
+    //               let table = document.querySelector('table');
+    //                 // Delete  row
+    //                 table.deleteRow(i + 1);
+    //              break;
+    //               }
+    //             }
+    //       }  
+    //     }
+    //            };
+    //            req.open("GET", url, true);
+    //            req.send();
+    //         }
+    //         row_total.innerHTML = parseInt(data[i].quantity) * parseFloat(data[i].sale_price);
+    //        }
+    //     }
+    //   };
+      req.open("GET", url, true);
+      req.send();
+    }
+    </script>
+</body>
+
+
+{% endblock %}
+

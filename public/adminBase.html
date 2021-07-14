@@ -1,0 +1,516 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="{% static 'static/sms.css' %}">
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css"></style>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+
+
+<style>
+
+
+     .clock {
+    position: absolute;
+     /* top: 50%; */
+    left: 9%; 
+    transform: translateX(-50%) translateY(-50%);
+    color: white;
+    font-family: 'Poppins';
+    font-size: 35px;
+    font-family: Orbitron;
+    letter-spacing: 7px;
+   
+
+
+}
+
+#body-row {
+    margin-left:0;
+    margin-right:0;
+}
+#sidebar-container {
+    min-height: 100vh;   
+    padding: 0;
+    -moz-box-shadow:    -6px 10px 50px 0 #555;
+    -webkit-box-shadow: -6px 10px 50px 0 #555;
+    box-shadow:         -6px 10px 50px 0 #555;
+
+}
+
+/* Sidebar sizes when expanded and expanded */
+.sidebar-expanded {
+    width: 300px;
+}
+.sidebar-collapsed {
+    width: 60px;
+}
+
+/* Menu item*/
+#sidebar-container .list-group a {
+    height: 50px;
+    color: white;
+}
+
+/* Submenu item*/
+#sidebar-container .list-group .sidebar-submenu a {
+    height: 45px;
+    padding-left: 30px;
+}
+.sidebar-submenu {
+    font-size: 0.9rem;
+}
+
+/* Separators */
+.sidebar-separator-title {
+    background-color: #3f474e;
+    height: 35px;
+}
+.sidebar-separator {
+    background-color: #0396FF;
+    height: 25px;
+}
+.logo-separator {
+    background-color: #0396FF;    
+    height: 60px;
+}
+
+/* Closed submenu icon */
+#sidebar-container .list-group .list-group-item[aria-expanded="false"] .submenu-icon::after {
+  content: " \f0d7";
+  font-family: FontAwesome;
+  display: inline;
+  text-align: right;
+  padding-left: 10px;
+}
+/* Opened submenu icon */
+#sidebar-container .list-group .list-group-item[aria-expanded="true"] .submenu-icon::after {
+  content: " \f0da";
+  font-family: FontAwesome;
+  display: inline;
+  text-align: right;
+  padding-left: 10px;
+}
+
+#time {
+  position: absolute;
+     /* top: 50%; */
+    left: 9%; 
+    transform: translateX(-50%) translateY(-50%);
+    color: white;
+    font-family: 'Poppins';
+    font-size: 30px;
+    font-family: Orbitron;
+    letter-spacing: 7px;
+    text-shadow: 0px 0px 20px blue;
+  
+}
+/* 
+#date {
+  font-family: 'Eczar', serif;
+  font-size: 10px;
+  text-align: center;
+  text-shadow: 0px 0px 20px blue;
+} */
+
+
+
+</style>
+
+</head>
+<body id ="page_body">
+
+  
+
+  
+
+
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #343a40;">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+          <!-- <img src="https://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt=""> -->
+          <span class="" style="font-family: 'Poppins';font-size: 20px;" > Point Of Sales</span>
+        </a>
+
+        <a class="navbar-brand" href="#">
+
+        </a>
+
+        <!-- <button >Message</button> -->
+
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+          
+            <li class="nav-item active">
+              <!-- <a class="nav-link" class="btn btn-success" href="adminLogout">Logout  <span class="sr-only">(current)</span></a> -->
+            </li>
+           
+            <li class="nav-item dropdown d-sm-block d-md-none">
+           
+            
+
+
+            </li><!-- Smaller devices menu END -->
+          </ul>
+        </div>
+      </nav><!-- NavBar END -->
+  
+  
+  <!-- Bootstrap row -->
+  <div class="row" id="body-row">
+      <!-- Sidebar -->
+      <div id="sidebar-container"  style="background-color: #3f474e;"  class="  sidebar-expanded d-none d-md-block"><!-- d-* hiddens the Sidebar in smaller devices. Its itens can be kept on the Navbar 'Menu' -->
+        <!-- Bootstrap List Group -->
+        <ul class="list-group">
+
+
+          <div>
+
+
+            <a href="adminHome" style="background-color: 
+                #3f474e;" class=" list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-start align-items-center">
+                      <!-- <img src="static/dashboard.png" title="Dashboard" class="img-fluid mb-1" style="   height: 25px;width: 35px;object-fit: contain;"> -->
+                        <span class="menu-collapsed ml-4" style="font-family: 'Poppins';font-size: 20px;" >07-07-2021</span>    
+                    </div>
+                </a>
+            </div>
+<!-- 
+          <a href="#" data-toggle="sidebar-colapse" style="background-color: #3f474e;;" class="list-group-item list-group-item-action d-flex align-items-center">
+            <div class="d-flex w-100 justify-content-start align-items-center"> -->
+              <!-- <div style="display: flex;justify-content: center;">
+               <div> <span id="collapse-icon" class="fa fa-3x"></span></div>
+               <div> <span id="collapse-icon1" class="fa fa-3x mr-3  "></span></div>
+              </div> -->
+                <!-- <span id="collapse-text" class="menu-collapsed" style="font-family: 'Poppins';font-size: 22px;"></span>
+            </div>
+        </a> -->
+
+            <!-- Image Div -->
+            <!-- <div class = "container-fluid text-center" style="background-color:#3f474e; ">
+            
+         
+
+             <h2 class="menu-collapsed text-white text-center" style="font-family: 'Poppins';font-size: 16px;margin-bottom: 20px;margin-top: 10px;" >{{request.session.user}}</h2>
+
+              </div>         -->
+            
+            
+            <div>
+
+
+            <a href="adminHome" style="background-color: 
+                #3f474e;" class=" list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-start align-items-center">
+                      <img src="static/dashboard.png" title="Dashboard" class="img-fluid mb-1" style="   height: 25px;width: 35px;object-fit: contain;">
+                        <span class="menu-collapsed ml-4" style="font-family: 'Poppins';font-size: 20px;" >Dashboard</span>    
+                    </div>
+                </a>
+            </div>
+
+
+            <a href="#submenu1" title="Student" data-toggle="collapse" aria-expanded="false" style="background-color: 
+            	#3f474e;" class=" list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                  <img src="static/inventory.png" title="Dashboard" class="img-fluid mb-1" style="   height: 25px;width: 35px;object-fit: contain;">
+                    <span class="menu-collapsed ml-4" style="font-family: 'Poppins';font-size: 20px;">Inventory</span>
+                    <img src="static/dropdown1.png" class="img-fluid ml-auto" style="   height: 15px;width: 15px;object-fit: contain;">
+                </div>
+              </a>
+              
+            <!-- Submenu content -->
+            <div id='submenu1' class="collapse sidebar-submenu">
+                <a href="insertitem " title="Insert Student" style="background-color: 
+                	#565F66;" class="list-group-item list-group-item-action " style="color: black;">
+                    <div  class="d-flex w-100 justify-content-start align-items-center">
+                      <img src="static/drawing.png" title="Dashboard" class="img-fluid mb-1" style="   height: 25px;width: 35px;object-fit: contain;">
+
+                    <span class="menu-collapsed" style="font-family: 'Poppins';font-size: 16px;">Create</span>
+
+                    </div>
+                </a>
+                <a href="inventory" title="View Students" style="background-color: 
+                	#565F66;" class="list-group-item list-group-item-action  text-white">
+                    <div  class="d-flex w-100 justify-content-start align-items-center">
+                      <img src="static/Focus.png" title="Dashboard" class="img-fluid mb-1" style="   height: 25px;width: 35px;object-fit: contain;">
+
+                    <span class="menu-collapsed" style="font-family: 'Poppins';font-size: 16px;">View</span>
+
+                    </div>
+                </a>
+            </div>
+
+
+            <a href="#submenu2" title="Student" data-toggle="collapse" aria-expanded="false" style="background-color: 
+            #3f474e;" class=" list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-start align-items-center">
+              <img src="static/vendors.png" title="Dashboard" class="img-fluid mb-1" style="   height: 25px;width: 35px;object-fit: contain;">
+                <span class="menu-collapsed ml-4" style="font-family: 'Poppins';font-size: 20px;">Vendor</span>
+                <img src="static/dropdown1.png" class="img-fluid ml-auto" style="   height: 15px;width: 15px;object-fit: contain;">
+            </div>
+          </a>
+          
+        <!-- Submenu content -->
+        <div id='submenu2' class="collapse sidebar-submenu">
+            <a href=" {% url 'RegisterVendorPage'   %}" title="Insert Student" style="background-color: 
+                #565F66;" class="list-group-item list-group-item-action " style="color: black;">
+                <div  class="d-flex w-100 justify-content-start align-items-center">
+                  <img src="static/drawing.png" title="Dashboard" class="img-fluid mb-1" style="   height: 25px;width: 35px;object-fit: contain;">
+
+                <span class="menu-collapsed" style="font-family: 'Poppins';font-size: 16px;">Create</span>
+
+                </div>
+            </a>
+            <a href="view_vendors" title="View Students" style="background-color: 
+                #565F66;" class="list-group-item list-group-item-action  text-white">
+                <div  class="d-flex w-100 justify-content-start align-items-center">
+                  <img src="static/Focus.png" title="Dashboard" class="img-fluid mb-1" style="   height: 25px;width: 35px;object-fit: contain;">
+
+                <span class="menu-collapsed" style="font-family: 'Poppins';font-size: 16px;">View</span>
+
+                </div>
+            </a>
+        </div>
+
+
+
+            <div>
+
+
+            <a href="orderList" style="background-color: 
+                #3f474e;" class=" list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-start align-items-center">
+                      <img src="static/orders.png" title="Dashboard" class="img-fluid mb-1" style="   height: 25px;width: 35px;object-fit: contain;">
+                        <span class="menu-collapsed ml-4" style="font-family: 'Poppins';font-size: 20px;" >Order List</span>    
+                    </div>
+                </a>
+            </div>
+
+
+
+            <div>
+
+
+                <a href="returnList" style="background-color: 
+                    #3f474e;" class=" list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                          <img src="static/returnlist.png" title="Dashboard" class="img-fluid mb-1" style="   height: 25px;width: 35px;object-fit: contain;">
+                            <span class="menu-collapsed ml-4" style="font-family: 'Poppins';font-size: 20px;" >Return List</span>    
+                        </div>
+                    </a>
+                </div>
+
+
+
+                
+            <div>
+
+
+                <a href="returnProduct" style="background-color: 
+                    #3f474e;" class=" list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                          <img src="static/returns.png" title="Dashboard" class="img-fluid mb-1" style="   height: 25px;width: 35px;object-fit: contain;">
+                            <span class="menu-collapsed ml-4" style="font-family: 'Poppins';font-size: 20px;" >Return Product</span>    
+                        </div>
+                    </a>
+                </div>
+
+
+
+
+
+
+ 
+
+
+
+
+
+  
+  
+<!-- Submenu content -->
+
+
+
+           
+
+
+
+        
+
+
+
+
+            
+    
+
+
+   
+
+
+
+
+
+
+
+          
+            
+            <a href= ""   style="background-color: 
+            	#3f474e;" class=" list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-start align-items-center">
+                  <img src="static/logout.png" title="Logout" class="img-fluid mb-1" style="   height: 25px;width: 35px;object-fit: contain;">
+
+                    <span class="menu-collapsed ml-4"style="font-family: 'Poppins';font-size: 20px;">Logout </span>
+                </div>
+            </a>
+
+            <!-- <div id="div1">
+              <p id="time" style="margin-top: 150px;" ></p>
+              <p id="date"></p>
+            </div> -->
+
+            <!-- <div id="MyClockDisplay" class="clock" style="margin-top: 150px;" onload="showTime()"></div> -->
+
+            <!-- <div style="text-align:center;padding:1em 0;"> <h4><a style="text-decoration:none;" class="text-white" href="https://www.zeitverschiebung.net/en/city/1176615"><span style="color:white;"></span><br /></a></h4> <iframe class="text-white" src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=en&size=small&timezone=Asia%2FKarachi" width="100%" height="90" frameborder="0" seamless></iframe> </div> -->
+
+        
+
+
+
+        
+        </ul><!-- List Group END-->
+    </div><!-- sidebar-container END -->
+    <div id="myModal1" class="modal fade" role="dialog" style="position: absolute;left: 55%;top: 65%;transform: translate(-50%, -50%);" >
+      <div class="modal-dialog">
+  
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="text-center" style="font-family: 'Poppins';font-size: 16px;">
+            
+              <h4 class="mt-2" style="color: #3d444b;" >Announcement</h4>
+            </div>
+              <div class="modal-body">
+
+                <form class="form-horizontal" method="POST" action="Message_Alert">
+                  {% csrf_token %}
+                  
+                  
+                    
+                    <div class="form-group row p-3">
+                      <label class="control-label   " style="font-family: 'Poppins';font-size: 20px;color: #3d444b;"> Message* </label>
+                     <textarea id="message" name="message" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group row ml-5">
+                      <div class="col-sm-3"></div>
+                       <button type="submit" id="saveBtn" class=" btn col-sm-4 ml-2 text-white" style="width:100px;background-color: #3d444b;">Submit</button>
+                </div>
+                </form>
+               
+              </div>
+              
+          </div>
+  
+      </div>
+  </div>
+
+
+
+
+
+
+      <!-- MAIN -->
+      <div class="col w-25">
+        {%block content%}
+
+
+
+    
+
+        {%endblock%}
+
+
+
+  
+
+          
+      </div><!-- Main Col END -->
+
+      
+      
+  </div><!-- body-row END -->
+
+  <footer class="" style="     position:absolute;
+  /* bottom:0; */
+  width:100%;
+  height:auto;   /* Height of the footer */
+  /* background:#6cf; */
+
+  background: #343a40;" >
+
+    <div class="text-left text-white">
+    
+    <div class="footer-copyright text-center py-1 " style="font-family: 'Poppins';font-size: 20px;opacity: 1.0;" >Design And Developement By
+      <a href="https://tronsit.com/" style="font-family: 'Poppins';font-size: 20px; color: #FFD820;" target="_blank"> Tronsit Solution.</a>
+    </div>
+    </div>
+   
+  
+  </footer> 
+
+
+
+
+
+<script>
+
+
+
+// Hide submenus
+$('#body-row .collapse').collapse('hide'); 
+
+// Collapse/Expand icon
+$('#collapse-icon').addClass('fa-angle-double-left'); 
+$('#collapse-icon1').addClass('fa-angle-double-left'); 
+
+// Collapse click
+$('[data-toggle=sidebar-colapse]').click(function() {
+    SidebarCollapse();
+});
+
+function SidebarCollapse () {
+    $('.menu-collapsed').toggleClass('d-none');
+    // $('.sidebar-submenu').toggleClass('d-none');
+    // $('.submenu-icon').toggleClass('d-none');
+    $('#sidebar-container').toggleClass('sidebar-expanded sidebar-collapsed');
+    
+    // Treating d-flex/d-none on separators with title
+    var SeparatorTitle = $('.sidebar-separator-title');
+    if ( SeparatorTitle.hasClass('d-flex') ) {
+        SeparatorTitle.removeClass('d-flex');
+    } else {
+        SeparatorTitle.addClass('d-flex');
+    }
+    
+    // Collapse/Expand icon
+    $('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
+}
+
+</script>
+
+</body>
+</html>

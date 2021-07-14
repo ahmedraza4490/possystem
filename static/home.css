@@ -1,0 +1,28 @@
+#sidebar1{
+ float: right;
+ background-color: antiquewhite;
+ margin-top: 7%;
+}
+#top{
+    padding: auto;
+    margin: auto;
+}
+#sidebar2{
+    float: right;
+    margin-top: 3%;
+   }
+#sidebar3{
+    float: right;
+    margin-top: 2%;
+}
+#name{
+    margin-left:100px;
+}
+/* th,td{
+    border: 2px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+}
+tr:nth-child(even){
+    background-color: aqua;
+} */

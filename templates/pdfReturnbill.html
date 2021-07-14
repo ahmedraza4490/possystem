@@ -1,0 +1,113 @@
+{% load static  %}
+
+<html lang="en">
+  <style>
+    .back{
+      background-color: red;
+    }
+    a{
+      font-size: 15px;
+    }
+    th,td{
+        padding:3px;
+        }
+    th{
+        background-color:#f2f2f2;
+        color:black;
+        }
+    td{
+      font-size:15px;
+    }
+    .descrptn{
+      font-size:15px;
+      
+    }
+  </style>
+
+  <h3></h3>
+
+  <h2 style="text-align: left; text-decoration: underline;color: green; font-size: 30px;">Return Bill Payment</h2>          
+          <hr>
+      
+
+          <table class="table">
+        
+          <tr>
+            <th>Product Name</th>
+  
+            <th>Quantity</th>
+            <th>Price</th>
+          </tr>
+        
+        <tbody id ="tableBody" class="text-center">
+         
+            {% for data in previous_returns %}
+            <tr>
+                <td style="text-align: center;">{{data.name}}</td>
+                <td style="text-align: center;">{{data.quantity}}</td>
+                <td style="text-align: center;">{{data.sale_price}}</td>
+        
+
+            </tr>
+            {% endfor  %}
+         </tbody>
+      </table> 
+
+     
+      <hr>
+      <div style="display: flex;justify-content: center;">
+
+        <div><label>Total Amount Back :</label></div>
+        <div<label style="color: black;font-size: xx-large;font-family: 'Times New Roman', Times, serif;text-align: center;">{{return_amount}}</label></div>
+    </div>
+
+
+
+    <table>
+      <tr>
+        <td><h6>* OPEN 7 DAYS/WEEK (8:00 AM - 11:45PM)</h6></td>
+       
+       
+      </tr>
+      <tr>
+        <td><h6>* FRIDAY'S BREAK(12:30 PM - 02:30 PM</h6></td>
+        
+        
+      </tr>
+      <tr>
+        <td><h6>FOR REFUND & EXCHANGE ON UNUSED ITEMS.</h6></td>
+       
+        
+      </tr>
+      <tr>
+        <td><h6>PLEASE BRING RECEIPT WITHIN 07 DAYS.</h6></td>  
+      </tr>
+
+      <tr>
+        <td><h6>NO REFUND OR EXCHANGE ON BAKERY AND DELI PRODUCTS</h6></td>  
+      </tr>
+
+      <tr>
+        <td><h6>TERMS AND CONDITIONS APPLY </h6></td>  
+      </tr>
+    
+    
+    </table>
+
+      
+
+
+
+      
+
+
+
+ 
+ 
+
+    
+
+    
+
+
+</html>
